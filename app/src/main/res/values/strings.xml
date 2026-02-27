@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Weander</string>
+    <string name="btn_weander">Weander</string>
+    <string name="btn_complete">I\u2019m here \u2014 Complete \u2192</string>
+    <string name="btn_reroll_mission">Re-roll mission</string>
+    <string name="btn_reroll_all">Re-roll everything</string>
+    <string name="btn_save">Save Adventure</string>
+    <string name="btn_take_photo">\uD83D\uDCF7  Take Photo</string>
+    <string name="btn_pick_photo">\uD83D\uDDBC  Gallery</string>
+    <string name="btn_record_audio">\uD83C\uDF99  Record Audio</string>
+    <string name="btn_stop_recording">Stop Recording</string>
+    <string name="btn_play_audio">\u25B6  Play Audio</string>
+    <string name="hint_text_entry">Write something here\u2026</string>
+    <string name="label_your_mission">Your mission</string>
+    <string name="empty_journal">No adventures yet.\nTap Weander to begin.</string>
+</resources>
