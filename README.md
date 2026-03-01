@@ -1,5 +1,7 @@
 # Weander
 
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+
 A creative micro-adventure generator for Android. Tap a button, get sent somewhere nearby with a creative mission. Go there. Do the thing. Document it. Build a personal journal of small adventures.
 
 > "a curious friend handing you a creative dare"
@@ -73,3 +75,9 @@ app/src/main/java/it/lo/exp/weander/
 `ACCESS_FINE_LOCATION`, `CAMERA`, `RECORD_AUDIO`, `READ/WRITE_EXTERNAL_STORAGE`
 
 All requested at runtime; the app degrades gracefully if any are denied.
+
+---
+
+## License
+
+Weander is free software, released under the [GNU General Public License v3.0](LICENSE).
