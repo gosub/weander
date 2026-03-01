@@ -18,4 +18,5 @@ public class Adventure {
     public String photoPath;
     public String textEntry;
     public String audioPath;
+    public String navigationText;   // null for GPS adventures
 }
