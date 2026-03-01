@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Viewport: 108×108. Safe zone: 18–90 on both axes.
+
+    One continuous stroke: cursive W  →  360° counter-clockwise swirl.
+
+    W geometry (smaller, centred):
+      left top (26,40)  valleys (44,70)(63,70)  hump (50,49)  right top (72,40)
+
+    Swirl: CCW circle, centre (66,40), r=6.
+      Cardinal points: right(72,40) top(66,34) left(60,40) bottom(66,46)
+      At the rightmost point a CCW circle travels upward — same tangent as the
+      W's right arm arriving at (72,40), so the join is smooth.
+      After a full 360° the stroke returns to (72,40) going upward again,
+      exiting in the same direction it entered the loop.
+      κ = 0.5523 × 6 ≈ 3.3
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#4E6741"
+        android:strokeWidth="10"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="
+            M  26,40
+            C  30,40  37,70  44,70
+            C  51,70  51,49  50,49
+            C  49,49  56,70  63,70
+            C  70,70  72,44  72,40" />
+
+</vector>
