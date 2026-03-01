@@ -23,7 +23,20 @@
 
     <path
         android:fillColor="#00000000"
-        android:strokeColor="#4E6741"
+        android:strokeColor="#3B5730"
+        android:strokeWidth="16"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="
+            M  26,40
+            C  30,40  37,70  44,70
+            C  51,70  51,49  50,49
+            C  49,49  56,70  63,70
+            C  70,70  72,44  72,40" />
+
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#A8C98A"
         android:strokeWidth="10"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
