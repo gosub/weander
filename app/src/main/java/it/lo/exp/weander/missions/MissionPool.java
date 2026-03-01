@@ -23,6 +23,10 @@ public class MissionPool {
         add(MissionCategory.PHOTO, "Photograph something you\u2019d walk past every day without noticing.");
         add(MissionCategory.PHOTO, "Frame a photo using something in the environment \u2014 a doorway, arch, or branches.");
         add(MissionCategory.PHOTO, "Find something beautiful in the mundane \u2014 a drain, a crack, peeling paint.");
+        // new hand-crafted PHOTO
+        add(MissionCategory.PHOTO, "Take a photo that only works at this exact time of day \u2014 and wouldn\u2019t make sense an hour from now.");
+        add(MissionCategory.PHOTO, "Find a natural frame \u2014 doorway, arch, branches, gap in a fence \u2014 and photograph what\u2019s inside it. Then step through and photograph looking back.");
+        add(MissionCategory.PHOTO, "Take five photographs that together tell a single wordless story of this place.");
 
         // ---- WRITING ----
         add(MissionCategory.WRITING, "Write a haiku inspired by the first thing you notice here.");
@@ -37,6 +41,10 @@ public class MissionPool {
         add(MissionCategory.WRITING, "Write a postcard to someone you miss, about this specific moment in this specific place.");
         add(MissionCategory.WRITING, "Invent the name of a person who lived here 100 years ago. What did they do?");
         add(MissionCategory.WRITING, "Write three rules for an imaginary secret society that meets at this exact spot.");
+        // new hand-crafted WRITING
+        add(MissionCategory.WRITING, "Listen without moving for 60 seconds. Write every distinct sound. Then write one sentence that somehow uses all of them.");
+        add(MissionCategory.WRITING, "Write the resignation letter of someone who worked in the nearest building that looks like it has a history. What were they leaving?");
+        add(MissionCategory.WRITING, "Choose one object you can see and write its autobiography in three sentences.");
 
         // ---- SOUND ----
         add(MissionCategory.SOUND, "Record the ambient sound for 30 seconds. Give it a title like it\u2019s a music track.");
@@ -51,6 +59,10 @@ public class MissionPool {
         add(MissionCategory.SOUND, "Close your eyes and record 30 seconds. Write down what you heard that you hadn\u2019t noticed.");
         add(MissionCategory.SOUND, "Record yourself humming something this place makes you feel.");
         add(MissionCategory.SOUND, "Find two contrasting sounds \u2014 soft and harsh, near and far \u2014 and record both back to back.");
+        // new hand-crafted SOUND
+        add(MissionCategory.SOUND, "Find a spot where sounds from two different directions overlap. Record 30 seconds of that overlap point.");
+        add(MissionCategory.SOUND, "Record a sound, then describe it in writing using only things it reminds you of \u2014 no direct description of what made it.");
+        add(MissionCategory.SOUND, "Find the spot on this street that sounds most different from your front door. Record 20 seconds.");
 
         // ---- SOCIAL ----
         add(MissionCategory.SOCIAL, "Ask a stranger: what\u2019s the best-kept secret of this neighbourhood?");
@@ -65,6 +77,10 @@ public class MissionPool {
         add(MissionCategory.SOCIAL, "Ask someone: if this neighbourhood were a person, how would you describe them?");
         add(MissionCategory.SOCIAL, "Find a shop owner and ask what their favourite thing in the shop is, and why.");
         add(MissionCategory.SOCIAL, "Ask a stranger: what\u2019s the one thing about this place that always cheers you up?");
+        // new hand-crafted SOCIAL
+        add(MissionCategory.SOCIAL, "Ask someone nearby what they\u2019re about to do next. Write it down \u2014 don\u2019t ask why.");
+        add(MissionCategory.SOCIAL, "Find the business here that seems most like it shouldn\u2019t still exist. Go in. Buy something small, or just introduce yourself.");
+        add(MissionCategory.SOCIAL, "Ask a stranger: what\u2019s one thing about this street they\u2019d change, and one thing they\u2019d keep forever?");
 
         // ---- CREATIVE ----
         add(MissionCategory.CREATIVE, "Sketch something you see here in under two minutes. Photograph the sketch.");
@@ -79,6 +95,10 @@ public class MissionPool {
         add(MissionCategory.CREATIVE, "Draw a rough map of this immediate area from memory, then photograph the map next to the real thing.");
         add(MissionCategory.CREATIVE, "Leave something here that a stranger might find \u2014 a small drawing, a folded note, a stone arrangement.");
         add(MissionCategory.CREATIVE, "Find the most photogenic angle of the most boring object here. Make it look like art.");
+        // new hand-crafted CREATIVE
+        add(MissionCategory.CREATIVE, "Collect exactly nine small objects you find here. Arrange them in order of the emotion they give you. Photograph the sequence.");
+        add(MissionCategory.CREATIVE, "Use your body as a measuring tool \u2014 paces, arm spans, hand widths \u2014 to measure something large. Write the result as a poem of quantities.");
+        add(MissionCategory.CREATIVE, "Find a completely unremarkable surface. Compose a photograph of it that makes a stranger stop scrolling.");
 
         // ---- OBSERVATION ----
         add(MissionCategory.OBSERVATION, "Count every distinct colour you can see from one spot. List them all.");
@@ -93,13 +113,98 @@ public class MissionPool {
         add(MissionCategory.OBSERVATION, "Choose one square metre of ground and count everything alive in it.");
         add(MissionCategory.OBSERVATION, "Find something casting an interesting shadow right now. Will it look different in an hour?");
         add(MissionCategory.OBSERVATION, "Notice what\u2019s missing from this place that you\u2019d expect to find here. Write about it.");
+        // new hand-crafted OBSERVATION
+        add(MissionCategory.OBSERVATION, "Count three complete cycles of something that repeats around you \u2014 people passing, a signal changing, a sound returning. Write the intervals.");
+        add(MissionCategory.OBSERVATION, "Identify the most temporary thing here and the most permanent thing here. Photograph both.");
+        add(MissionCategory.OBSERVATION, "Find evidence of a decision someone made here \u2014 a worn path, a painted line, a worn-away corner. What were they deciding?");
+
+        // ---- MULTI-STEP MISSIONS ----
+        add(MissionCategory.PHOTO,
+            "Find something broken or incomplete here.\n\nPhotograph it as it is.\n\nNow photograph it from an angle that makes it look intentional \u2014 as if the damage were the point.");
+        add(MissionCategory.WRITING,
+            "Choose a stranger you can observe without approaching.\n\nWrite their itinerary for today as you imagine it \u2014 not what they look like, just what they\u2019ve done and will do.\n\nSign it with a name you invent for them.");
+        add(MissionCategory.CREATIVE,
+            "Find the most boring object in sight.\n\nWrite a three-sentence advertisement for it \u2014 make it sound unmissable.\n\nPhotograph the object next to your ad.");
+        add(MissionCategory.OBSERVATION,
+            "Find the two things here that are furthest apart in age.\n\nEstimate how old each is.\n\nWrite one sentence connecting them.");
+        add(MissionCategory.SOUND,
+            "Stand still for 90 seconds with your eyes closed.\n\nRecord the last 20 seconds.\n\nWrite down what you heard that you hadn\u2019t noticed before you started.");
+        add(MissionCategory.SOCIAL,
+            "Find someone who looks like they come here regularly.\n\nAsk them one question about this place \u2014 anything you\u2019re genuinely curious about.\n\nWrite down their answer word for word.");
     }
+
+    // ---- Composable mission generator ----
+
+    private static final String[] OBS_QUALITIES = {
+        "most weathered", "most out of place", "most recently changed",
+        "oldest", "most repaired", "most ignored",
+    };
+    private static final String[] OBS_CONSTRAINTS = {
+        "from the lowest angle you can manage",
+        "as if it were important evidence",
+        "in a way that makes it look significant",
+        "so that a stranger would want to know more",
+        "as if you were documenting it for a museum",
+    };
+
+    private static final String[] PHOTO_SUBJECTS = {
+        "the thing that looks most out of time",
+        "a surface no one would ever choose to photograph",
+        "the boundary between two completely different textures",
+        "something that casts a shadow more interesting than itself",
+        "a detail at exactly knee height",
+    };
+    private static final String[] PHOTO_APPROACHES = {
+        "Fill the frame completely \u2014 leave no background.",
+        "Shoot into the light.",
+        "Use something in the foreground to half-obscure it.",
+        "Take it from directly above.",
+        "Wait until a person or vehicle passes through the frame.",
+    };
+
+    private static final String[] WRITING_SUBJECTS = {
+        "the sound that is most constant here",
+        "the oldest surface you can see",
+        "the gap between two buildings",
+        "the thing nobody here would ever describe",
+        "the point where two different streets meet",
+    };
+    private static final String[] WRITING_FORMS = {
+        "Write one sentence that contains a lie and a truth in equal measure.",
+        "Describe it as if to someone who has never left a single room.",
+        "Write four words that together become a title for it.",
+        "Write the first line of the letter it would send if it could.",
+        "Describe it using only measurements and temperatures.",
+    };
+
+    private static Mission composedMission() {
+        int pick = RANDOM.nextInt(3);
+        if (pick == 0) {
+            String quality    = OBS_QUALITIES[RANDOM.nextInt(OBS_QUALITIES.length)];
+            String constraint = OBS_CONSTRAINTS[RANDOM.nextInt(OBS_CONSTRAINTS.length)];
+            return new Mission(MissionCategory.OBSERVATION,
+                "Find the " + quality + " thing here. Photograph it " + constraint + ".");
+        } else if (pick == 1) {
+            String subject  = PHOTO_SUBJECTS[RANDOM.nextInt(PHOTO_SUBJECTS.length)];
+            String approach = PHOTO_APPROACHES[RANDOM.nextInt(PHOTO_APPROACHES.length)];
+            return new Mission(MissionCategory.PHOTO,
+                "Find " + subject + ". " + approach);
+        } else {
+            String subject = WRITING_SUBJECTS[RANDOM.nextInt(WRITING_SUBJECTS.length)];
+            String form    = WRITING_FORMS[RANDOM.nextInt(WRITING_FORMS.length)];
+            return new Mission(MissionCategory.WRITING,
+                "Focus on " + subject + ". " + form);
+        }
+    }
+
+    // ---- Public API ----
 
     private static void add(MissionCategory cat, String text) {
         ALL.add(new Mission(cat, text));
     }
 
     public static Mission random() {
+        if (RANDOM.nextFloat() < 0.2f) return composedMission();
         return ALL.get(RANDOM.nextInt(ALL.size()));
     }
 
