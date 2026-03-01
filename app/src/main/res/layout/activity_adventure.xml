@@ -26,6 +26,30 @@
             android:background="@color/surface"
             android:padding="20dp">
 
+            <!-- Nav strategy name (shown in nav mode, replaces distance line) -->
+            <TextView
+                android:id="@+id/text_nav_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/accent"
+                android:textSize="13sp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.08"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone" />
+
+            <!-- Nav strategy instruction (shown in nav mode) -->
+            <TextView
+                android:id="@+id/text_nav_instruction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:fontFamily="serif"
+                android:textColor="@color/text_primary"
+                android:lineSpacingMultiplier="1.45"
+                android:layout_marginBottom="18dp"
+                android:visibility="gone" />
+
             <!-- Distance info -->
             <TextView
                 android:id="@+id/text_distance"

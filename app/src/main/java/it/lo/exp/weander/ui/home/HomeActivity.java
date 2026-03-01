@@ -8,7 +8,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -19,6 +18,8 @@ import it.lo.exp.weander.R;
 import it.lo.exp.weander.data.repository.AdventureRepository;
 import it.lo.exp.weander.missions.Mission;
 import it.lo.exp.weander.missions.MissionPool;
+import it.lo.exp.weander.missions.NavigationStrategy;
+import it.lo.exp.weander.missions.NavigationStrategyPool;
 import it.lo.exp.weander.ui.adventure.AdventureActivity;
 import it.lo.exp.weander.ui.journal.JournalActivity;
 import it.lo.exp.weander.util.LocationUtil;
@@ -86,7 +87,7 @@ public class HomeActivity extends Activity {
                     weanderBtn.setEnabled(true);
                     weanderBtn.setText(R.string.btn_weander);
                     if (location == null) {
-                        Toast.makeText(this, "Couldn\u2019t get your location \u2014 try again.", Toast.LENGTH_SHORT).show();
+                        launchWithStrategy();
                         return;
                     }
                     launchAdventure(location);
@@ -94,11 +95,15 @@ public class HomeActivity extends Activity {
                 .addOnFailureListener(this, e -> {
                     weanderBtn.setEnabled(true);
                     weanderBtn.setText(R.string.btn_weander);
-                    Toast.makeText(this, "Location error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    launchWithStrategy();
                 });
     }
 
     private void launchAdventure(Location location) {
+        if (Math.random() < 0.3) {
+            launchWithStrategy();
+            return;
+        }
         double[] dest = LocationUtil.randomNearbyPoint(
                 location.getLatitude(), location.getLongitude(), MIN_RADIUS, MAX_RADIUS);
         Mission mission = MissionPool.random();
@@ -113,13 +118,30 @@ public class HomeActivity extends Activity {
         startActivity(intent);
     }
 
+    private void launchWithStrategy() {
+        NavigationStrategy strategy = NavigationStrategyPool.random();
+        Mission mission = MissionPool.random();
+
+        Intent intent = new Intent(this, AdventureActivity.class);
+        intent.putExtra("startLat", 0.0);
+        intent.putExtra("startLng", 0.0);
+        intent.putExtra("destLat", 0.0);
+        intent.putExtra("destLng", 0.0);
+        intent.putExtra("missionCategory", mission.getCategory().name());
+        intent.putExtra("missionText", mission.getText());
+        intent.putExtra("navName", strategy.getName());
+        intent.putExtra("navInstruction", strategy.getInstruction());
+        startActivity(intent);
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == PERM_LOCATION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 beginAdventure();
             } else {
-                Toast.makeText(this, "Location permission is needed to find nearby spots.", Toast.LENGTH_LONG).show();
+                // Permission denied — fall through to a nav strategy adventure
+                launchWithStrategy();
             }
         }
     }

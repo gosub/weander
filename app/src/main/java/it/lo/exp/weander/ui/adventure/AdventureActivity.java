@@ -3,6 +3,7 @@ package it.lo.exp.weander.ui.adventure;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -22,35 +23,55 @@ public class AdventureActivity extends Activity {
 
     private double startLat, startLng, destLat, destLng;
     private String missionCategory, missionText;
+    private String navName, navInstruction;
 
     private MapView mapView;
     private TextView missionLabel;
     private TextView missionView;
     private TextView distanceView;
+    private TextView navNameView;
+    private TextView navInstructionView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adventure);
 
-        startLat = getIntent().getDoubleExtra("startLat", 0);
-        startLng = getIntent().getDoubleExtra("startLng", 0);
-        destLat  = getIntent().getDoubleExtra("destLat", 0);
-        destLng  = getIntent().getDoubleExtra("destLng", 0);
+        startLat        = getIntent().getDoubleExtra("startLat", 0);
+        startLng        = getIntent().getDoubleExtra("startLng", 0);
+        destLat         = getIntent().getDoubleExtra("destLat", 0);
+        destLng         = getIntent().getDoubleExtra("destLng", 0);
         missionCategory = getIntent().getStringExtra("missionCategory");
         missionText     = getIntent().getStringExtra("missionText");
+        navName         = getIntent().getStringExtra("navName");
+        navInstruction  = getIntent().getStringExtra("navInstruction");
 
-        mapView      = findViewById(R.id.map);
-        missionLabel = findViewById(R.id.text_mission_label);
-        missionView  = findViewById(R.id.text_mission);
-        distanceView = findViewById(R.id.text_distance);
+        mapView            = findViewById(R.id.map);
+        missionLabel       = findViewById(R.id.text_mission_label);
+        missionView        = findViewById(R.id.text_mission);
+        distanceView       = findViewById(R.id.text_distance);
+        navNameView        = findViewById(R.id.text_nav_name);
+        navInstructionView = findViewById(R.id.text_nav_instruction);
 
-        setupMap();
+        if (navInstruction != null) {
+            setupNavMode();
+        } else {
+            setupMap();
+        }
         updateMissionCard();
 
         findViewById(R.id.btn_reroll_mission).setOnClickListener(v -> rerollMission());
         findViewById(R.id.btn_reroll_all).setOnClickListener(v -> finish());
         findViewById(R.id.btn_complete).setOnClickListener(v -> launchComplete());
+    }
+
+    private void setupNavMode() {
+        mapView.setVisibility(View.GONE);
+        distanceView.setVisibility(View.GONE);
+        navNameView.setVisibility(View.VISIBLE);
+        navInstructionView.setVisibility(View.VISIBLE);
+        navNameView.setText(navName);
+        navInstructionView.setText(navInstruction);
     }
 
     private void setupMap() {
@@ -84,9 +105,11 @@ public class AdventureActivity extends Activity {
         missionLabel.setText(cat.getEmoji() + "  " + cat.getDisplayName());
         missionView.setText(missionText);
 
-        double dist  = LocationUtil.distanceMeters(startLat, startLng, destLat, destLng);
-        int minutes  = LocationUtil.walkingMinutes(dist);
-        distanceView.setText(LocationUtil.formatDistance(dist) + "  \u00b7  ~" + minutes + " min walk");
+        if (navInstruction == null) {
+            double dist = LocationUtil.distanceMeters(startLat, startLng, destLat, destLng);
+            int minutes = LocationUtil.walkingMinutes(dist);
+            distanceView.setText(LocationUtil.formatDistance(dist) + "  \u00b7  ~" + minutes + " min walk");
+        }
     }
 
     private void rerollMission() {
@@ -104,10 +127,13 @@ public class AdventureActivity extends Activity {
         intent.putExtra("destLng", destLng);
         intent.putExtra("missionCategory", missionCategory);
         intent.putExtra("missionText", missionText);
+        if (navInstruction != null) {
+            intent.putExtra("navInstruction", navInstruction);
+        }
         startActivity(intent);
         finish();
     }
 
-    @Override protected void onResume() { super.onResume(); mapView.onResume(); }
-    @Override protected void onPause()  { super.onPause();  mapView.onPause();  }
+    @Override protected void onResume() { super.onResume(); if (navInstruction == null) mapView.onResume(); }
+    @Override protected void onPause()  { super.onPause();  if (navInstruction == null) mapView.onPause();  }
 }

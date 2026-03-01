@@ -44,6 +44,7 @@ public class CompleteActivity extends Activity {
 
     private double startLat, startLng, destLat, destLng;
     private String missionCategory, missionText;
+    private String navInstruction;
 
     private String photoPath;
     private String audioPath;
@@ -69,6 +70,7 @@ public class CompleteActivity extends Activity {
         destLng         = getIntent().getDoubleExtra("destLng", 0);
         missionCategory = getIntent().getStringExtra("missionCategory");
         missionText     = getIntent().getStringExtra("missionText");
+        navInstruction  = getIntent().getStringExtra("navInstruction");
 
         repository = new AdventureRepository(this);
 
@@ -241,9 +243,10 @@ public class CompleteActivity extends Activity {
         adventure.destLng      = destLng;
         adventure.missionCategory = missionCategory;
         adventure.missionText  = missionText;
-        adventure.photoPath    = photoPath;
-        adventure.textEntry    = text.isEmpty() ? null : text;
-        adventure.audioPath    = audioPath;
+        adventure.photoPath       = photoPath;
+        adventure.textEntry       = text.isEmpty() ? null : text;
+        adventure.audioPath       = audioPath;
+        adventure.navigationText  = navInstruction;
 
         findViewById(R.id.btn_save).setEnabled(false);
         repository.insert(adventure, id -> runOnUiThread(() -> {
