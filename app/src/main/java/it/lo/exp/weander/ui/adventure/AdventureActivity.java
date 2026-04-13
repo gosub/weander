@@ -1,11 +1,20 @@
 package it.lo.exp.weander.ui.adventure;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
@@ -35,6 +44,10 @@ public class AdventureActivity extends Activity {
     private TextView distanceView;
     private TextView navNameView;
     private TextView navInstructionView;
+
+    private Marker youAreHereMarker;
+    private FusedLocationProviderClient fusedLocation;
+    private LocationCallback locationCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +82,7 @@ public class AdventureActivity extends Activity {
             setupNavMode();
         } else {
             setupMap();
+            setupLocationTracking();
         }
         updateMissionCard();
 
@@ -104,11 +118,11 @@ public class AdventureActivity extends Activity {
         destMarker.setTitle("Your destination");
         mapView.getOverlays().add(destMarker);
 
-        Marker startMarker = new Marker(mapView);
-        startMarker.setPosition(start);
-        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        startMarker.setTitle("You are here");
-        mapView.getOverlays().add(startMarker);
+        youAreHereMarker = new Marker(mapView);
+        youAreHereMarker.setPosition(start);
+        youAreHereMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        youAreHereMarker.setTitle("You are here");
+        mapView.getOverlays().add(youAreHereMarker);
 
         Polyline route = new Polyline();
         route.setPoints(Arrays.asList(start, dest));
@@ -117,6 +131,37 @@ public class AdventureActivity extends Activity {
         mapView.getOverlays().add(0, route);
 
         mapView.invalidate();
+    }
+
+    private void setupLocationTracking() {
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) return;
+
+        fusedLocation = LocationServices.getFusedLocationProviderClient(this);
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult result) {
+                if (result == null || youAreHereMarker == null) return;
+                android.location.Location loc = result.getLastLocation();
+                if (loc == null) return;
+                youAreHereMarker.setPosition(new GeoPoint(loc.getLatitude(), loc.getLongitude()));
+                mapView.invalidate();
+            }
+        };
+    }
+
+    private void startLocationUpdates() {
+        if (fusedLocation == null || locationCallback == null) return;
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) return;
+        LocationRequest req = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 4000)
+                .setMinUpdateIntervalMillis(2000)
+                .build();
+        fusedLocation.requestLocationUpdates(req, locationCallback, Looper.getMainLooper());
+    }
+
+    private void stopLocationUpdates() {
+        if (fusedLocation != null && locationCallback != null) {
+            fusedLocation.removeLocationUpdates(locationCallback);
+        }
     }
 
     private void updateMissionCard() {
@@ -132,10 +177,10 @@ public class AdventureActivity extends Activity {
     }
 
     private void shareMission() {
-        android.content.Intent share = new android.content.Intent(android.content.Intent.ACTION_SEND);
+        Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
-        share.putExtra(android.content.Intent.EXTRA_TEXT, missionText);
-        startActivity(android.content.Intent.createChooser(share, null));
+        share.putExtra(Intent.EXTRA_TEXT, missionText);
+        startActivity(Intent.createChooser(share, null));
     }
 
     private void rerollMission() {
@@ -159,6 +204,21 @@ public class AdventureActivity extends Activity {
         finish();
     }
 
-    @Override protected void onResume() { super.onResume(); if (navInstruction == null) mapView.onResume(); }
-    @Override protected void onPause()  { super.onPause();  if (navInstruction == null) mapView.onPause();  }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (navInstruction == null) {
+            mapView.onResume();
+            startLocationUpdates();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (navInstruction == null) {
+            mapView.onPause();
+            stopLocationUpdates();
+        }
+    }
 }
