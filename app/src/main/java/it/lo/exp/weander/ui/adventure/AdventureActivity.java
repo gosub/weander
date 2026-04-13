@@ -62,6 +62,7 @@ public class AdventureActivity extends Activity {
 
         findViewById(R.id.btn_reroll_mission).setOnClickListener(v -> rerollMission());
         findViewById(R.id.btn_reroll_all).setOnClickListener(v -> finish());
+        findViewById(R.id.btn_share_mission).setOnClickListener(v -> shareMission());
         findViewById(R.id.btn_complete).setOnClickListener(v -> launchComplete());
     }
 
@@ -110,6 +111,13 @@ public class AdventureActivity extends Activity {
             int minutes = LocationUtil.walkingMinutes(dist);
             distanceView.setText(LocationUtil.formatDistance(dist) + "  \u00b7  ~" + minutes + " min walk");
         }
+    }
+
+    private void shareMission() {
+        android.content.Intent share = new android.content.Intent(android.content.Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.putExtra(android.content.Intent.EXTRA_TEXT, missionText);
+        startActivity(android.content.Intent.createChooser(share, null));
     }
 
     private void rerollMission() {

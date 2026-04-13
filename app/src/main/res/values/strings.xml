@@ -14,4 +14,5 @@
     <string name="hint_text_entry">Write something here\u2026</string>
     <string name="label_your_mission">Your mission</string>
     <string name="empty_journal">No adventures yet.\nTap Weander to begin.</string>
+    <string name="btn_share_mission">Share this mission\u2026</string>
 </resources>
