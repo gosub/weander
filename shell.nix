@@ -1,5 +1,5 @@
 # shell.nix
-{ pkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/nixos-25.05.tar.gz") {
+{ pkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/nixos-25.11.tar.gz") {
     config = {
       android_sdk.accept_license = true;
       allowUnfree = true;
