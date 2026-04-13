@@ -11,6 +11,9 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Polyline;
+
+import java.util.Arrays;
 
 import it.lo.exp.weander.R;
 import it.lo.exp.weander.missions.Mission;
@@ -97,6 +100,12 @@ public class AdventureActivity extends Activity {
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
         startMarker.setTitle("You are here");
         mapView.getOverlays().add(startMarker);
+
+        Polyline route = new Polyline();
+        route.setPoints(Arrays.asList(start, dest));
+        route.getOutlinePaint().setColor(0x995C4A32);
+        route.getOutlinePaint().setStrokeWidth(14f);
+        mapView.getOverlays().add(0, route);
 
         mapView.invalidate();
     }
