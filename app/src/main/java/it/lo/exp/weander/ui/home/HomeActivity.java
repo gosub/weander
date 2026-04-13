@@ -2,10 +2,13 @@ package it.lo.exp.weander.ui.home;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -115,6 +118,7 @@ public class HomeActivity extends Activity {
         intent.putExtra("destLng", dest[1]);
         intent.putExtra("missionCategory", mission.getCategory().name());
         intent.putExtra("missionText", mission.getText());
+        vibrate();
         startActivity(intent);
     }
 
@@ -131,7 +135,13 @@ public class HomeActivity extends Activity {
         intent.putExtra("missionText", mission.getText());
         intent.putExtra("navName", strategy.getName());
         intent.putExtra("navInstruction", strategy.getInstruction());
+        vibrate();
         startActivity(intent);
+    }
+
+    private void vibrate() {
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (v != null) v.vibrate(VibrationEffect.createOneShot(60, VibrationEffect.DEFAULT_AMPLITUDE));
     }
 
     @Override
