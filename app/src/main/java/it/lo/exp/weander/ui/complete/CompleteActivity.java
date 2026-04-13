@@ -219,11 +219,22 @@ public class CompleteActivity extends Activity {
     }
 
     private void showPhotoPreview(String path) {
-        Bitmap bm = BitmapFactory.decodeFile(path);
+        Bitmap bm = decodeSampled(path, 1024);
         if (bm != null) {
             photoPreview.setImageBitmap(bm);
             photoPreview.setVisibility(View.VISIBLE);
         }
+    }
+
+    private static Bitmap decodeSampled(String path, int maxDim) {
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, opts);
+        int sample = 1;
+        while (Math.max(opts.outWidth, opts.outHeight) / sample > maxDim) sample *= 2;
+        opts.inJustDecodeBounds = false;
+        opts.inSampleSize = sample;
+        return BitmapFactory.decodeFile(path, opts);
     }
 
     // ---- Save ----

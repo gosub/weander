@@ -72,7 +72,7 @@ public class AdventureDetailActivity extends Activity {
         }
 
         if (a.photoPath != null) {
-            Bitmap bm = BitmapFactory.decodeFile(a.photoPath);
+            Bitmap bm = decodeSampled(a.photoPath, 1024);
             if (bm != null) {
                 photoView.setImageBitmap(bm);
                 photoView.setVisibility(View.VISIBLE);
@@ -108,6 +108,17 @@ public class AdventureDetailActivity extends Activity {
         m.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
         mapView.getOverlays().add(m);
         mapView.invalidate();
+    }
+
+    private static Bitmap decodeSampled(String path, int maxDim) {
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, opts);
+        int sample = 1;
+        while (Math.max(opts.outWidth, opts.outHeight) / sample > maxDim) sample *= 2;
+        opts.inJustDecodeBounds = false;
+        opts.inSampleSize = sample;
+        return BitmapFactory.decodeFile(path, opts);
     }
 
     private void playAudio(String path) {
