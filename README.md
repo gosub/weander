@@ -16,12 +16,12 @@ A creative micro-adventure generator for Android. Tap a button, get sent somewhe
 
 ## What it does
 
-1. **Weander** — tap the button, get a random nearby destination (500m–2km) paired with a random creative mission
-2. **Go** — walk there following the OSMDroid map; re-roll the mission if it doesn't spark anything
+1. **Weander** — tap the button. Either a random nearby destination (500m–2km) is picked using GPS, or — when GPS is unavailable or 30% of the time regardless — a procedurally generated walking strategy (a rule for how to navigate, a condition for when to stop)
+2. **Go** — follow the OSMDroid map to your destination, with a live position dot; re-roll the mission if it doesn't spark anything
 3. **Complete** — document with a photo, text, or audio recording
-4. **Journal** — browse your past adventures in a chronological feed
+4. **Journal** — browse past adventures in a chronological feed, filter by category, or view all destinations on a map
 
-Missions span six categories: Photo, Writing, Sound, Social, Creative, Observation. 72 missions total, weighted and composable.
+Missions span six categories: Photo, Writing, Sound, Social, Creative, Observation. Over 90 hand-crafted missions, plus composable variants generated from component parts. Missions are weighted by time of day and season. A random creative constraint (35% chance) adds an extra layer of friction. Return missions activate when you revisit an area you have explored before.
 
 ---
 
@@ -66,11 +66,13 @@ app/src/main/java/it/lo/exp/weander/
   data/local/          # Room DB, DAO
   data/model/          # Adventure entity
   data/repository/
-  missions/            # Mission, MissionCategory, MissionPool (72 missions)
-  ui/home/             # HomeActivity — the "Weander" button
-  ui/adventure/        # AdventureActivity — map + mission card
+  missions/            # Mission, MissionPool, ConstraintPool, ReturnMissionPool
+                       # NavigationStrategy, NavigationStrategyPool
+  ui/home/             # HomeActivity — the "Weander" button + streak stats
+  ui/adventure/        # AdventureActivity — map, live position, mission card
   ui/complete/         # CompleteActivity — camera / gallery / audio / text
-  ui/journal/          # JournalActivity, AdventureDetailActivity
+  ui/journal/          # JournalActivity (filter chips, map button)
+                       # AdventureDetailActivity, MapOverviewActivity
   util/                # Haversine, random nearby point, walk time
 ```
 
@@ -78,7 +80,7 @@ app/src/main/java/it/lo/exp/weander/
 
 ## Permissions
 
-`ACCESS_FINE_LOCATION`, `CAMERA`, `RECORD_AUDIO`, `READ/WRITE_EXTERNAL_STORAGE`
+`ACCESS_FINE_LOCATION`, `CAMERA`, `RECORD_AUDIO`, `VIBRATE`, `WRITE_EXTERNAL_STORAGE` (API ≤ 28 only, for OSMDroid tile cache)
 
 All requested at runtime; the app degrades gracefully if any are denied.
 
