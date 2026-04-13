@@ -6,6 +6,12 @@ A creative micro-adventure generator for Android. Tap a button, get sent somewhe
 
 > "a curious friend handing you a creative dare"
 
+<p align="center">
+  <img src="screenshots/home.png" width="270" alt="Home screen">
+  &nbsp;&nbsp;&nbsp;
+  <img src="screenshots/mission.png" width="270" alt="Mission screen">
+</p>
+
 ---
 
 ## What it does
