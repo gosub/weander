@@ -24,6 +24,7 @@ import it.lo.exp.weander.missions.Mission;
 import it.lo.exp.weander.missions.MissionPool;
 import it.lo.exp.weander.missions.NavigationStrategy;
 import it.lo.exp.weander.missions.NavigationStrategyPool;
+import it.lo.exp.weander.missions.ReturnMissionPool;
 import it.lo.exp.weander.ui.adventure.AdventureActivity;
 import it.lo.exp.weander.ui.journal.JournalActivity;
 import it.lo.exp.weander.util.LocationUtil;
@@ -113,18 +114,36 @@ public class HomeActivity extends Activity {
         }
         double[] dest = LocationUtil.randomNearbyPoint(
                 location.getLatitude(), location.getLongitude(), MIN_RADIUS, MAX_RADIUS);
-        Mission mission = MissionPool.randomContextual();
 
-        Intent intent = new Intent(this, AdventureActivity.class);
-        intent.putExtra("startLat", location.getLatitude());
-        intent.putExtra("startLng", location.getLongitude());
-        intent.putExtra("destLat", dest[0]);
-        intent.putExtra("destLng", dest[1]);
-        intent.putExtra("missionCategory", mission.getCategory().name());
-        intent.putExtra("missionText", mission.getText());
-        intent.putExtra("constraint", ConstraintPool.maybeRandom());
-        vibrate();
-        startActivity(intent);
+        // Check for return missions on background thread before launching
+        double lat = location.getLatitude();
+        double lng = location.getLongitude();
+        repository.getAll(adventures -> {
+            boolean hasBeenNearby = false;
+            for (it.lo.exp.weander.data.model.Adventure a : adventures) {
+                if (a.destLat == 0 && a.destLng == 0) continue;
+                if (LocationUtil.distanceMeters(lat, lng, a.destLat, a.destLng) < 150) {
+                    hasBeenNearby = true;
+                    break;
+                }
+            }
+            Mission mission = (hasBeenNearby && Math.random() < 0.5)
+                    ? ReturnMissionPool.random()
+                    : MissionPool.randomContextual();
+
+            Intent intent = new Intent(this, AdventureActivity.class);
+            intent.putExtra("startLat", lat);
+            intent.putExtra("startLng", lng);
+            intent.putExtra("destLat", dest[0]);
+            intent.putExtra("destLng", dest[1]);
+            intent.putExtra("missionCategory", mission.getCategory().name());
+            intent.putExtra("missionText", mission.getText());
+            intent.putExtra("constraint", ConstraintPool.maybeRandom());
+            runOnUiThread(() -> {
+                vibrate();
+                startActivity(intent);
+            });
+        });
     }
 
     private void launchWithStrategy() {
