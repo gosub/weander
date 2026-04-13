@@ -16,8 +16,8 @@ public class AdventureRepository {
         void onResult(T result);
     }
 
+    private static final ExecutorService executor = Executors.newSingleThreadExecutor();
     private final AdventureDao dao;
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public AdventureRepository(Context context) {
         dao = AppDatabase.getInstance(context).adventureDao();
