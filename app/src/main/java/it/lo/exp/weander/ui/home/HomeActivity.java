@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.CancellationTokenSource;
 
 import it.lo.exp.weander.R;
 import it.lo.exp.weander.data.repository.AdventureRepository;
+import it.lo.exp.weander.missions.ConstraintPool;
 import it.lo.exp.weander.missions.Mission;
 import it.lo.exp.weander.missions.MissionPool;
 import it.lo.exp.weander.missions.NavigationStrategy;
@@ -121,6 +122,7 @@ public class HomeActivity extends Activity {
         intent.putExtra("destLng", dest[1]);
         intent.putExtra("missionCategory", mission.getCategory().name());
         intent.putExtra("missionText", mission.getText());
+        intent.putExtra("constraint", ConstraintPool.maybeRandom());
         vibrate();
         startActivity(intent);
     }
@@ -138,6 +140,7 @@ public class HomeActivity extends Activity {
         intent.putExtra("missionText", mission.getText());
         intent.putExtra("navName", strategy.getName());
         intent.putExtra("navInstruction", strategy.getInstruction());
+        intent.putExtra("constraint", ConstraintPool.maybeRandom());
         vibrate();
         startActivity(intent);
     }

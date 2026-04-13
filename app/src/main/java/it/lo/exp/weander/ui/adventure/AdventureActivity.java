@@ -27,6 +27,7 @@ public class AdventureActivity extends Activity {
     private double startLat, startLng, destLat, destLng;
     private String missionCategory, missionText;
     private String navName, navInstruction;
+    private String constraint;
 
     private MapView mapView;
     private TextView missionLabel;
@@ -48,6 +49,7 @@ public class AdventureActivity extends Activity {
         missionText     = getIntent().getStringExtra("missionText");
         navName         = getIntent().getStringExtra("navName");
         navInstruction  = getIntent().getStringExtra("navInstruction");
+        constraint      = getIntent().getStringExtra("constraint");
 
         mapView            = findViewById(R.id.map);
         missionLabel       = findViewById(R.id.text_mission_label);
@@ -55,6 +57,13 @@ public class AdventureActivity extends Activity {
         distanceView       = findViewById(R.id.text_distance);
         navNameView        = findViewById(R.id.text_nav_name);
         navInstructionView = findViewById(R.id.text_nav_instruction);
+
+        if (constraint != null) {
+            findViewById(R.id.text_constraint_label).setVisibility(View.VISIBLE);
+            TextView constraintView = findViewById(R.id.text_constraint);
+            constraintView.setVisibility(View.VISIBLE);
+            constraintView.setText(constraint);
+        }
 
         if (navInstruction != null) {
             setupNavMode();
@@ -144,9 +153,8 @@ public class AdventureActivity extends Activity {
         intent.putExtra("destLng", destLng);
         intent.putExtra("missionCategory", missionCategory);
         intent.putExtra("missionText", missionText);
-        if (navInstruction != null) {
-            intent.putExtra("navInstruction", navInstruction);
-        }
+        if (navInstruction != null) intent.putExtra("navInstruction", navInstruction);
+        if (constraint != null)     intent.putExtra("constraint", constraint);
         startActivity(intent);
         finish();
     }

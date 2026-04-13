@@ -79,7 +79,31 @@
                 android:fontFamily="serif"
                 android:textColor="@color/text_primary"
                 android:lineSpacingMultiplier="1.45"
-                android:layout_marginBottom="22dp" />
+                android:layout_marginBottom="14dp" />
+
+            <!-- Constraint label + text (only shown when a constraint is active) -->
+            <TextView
+                android:id="@+id/text_constraint_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="constraint"
+                android:textSize="11sp"
+                android:textColor="@color/text_secondary"
+                android:textAllCaps="true"
+                android:letterSpacing="0.1"
+                android:visibility="gone"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/text_constraint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                android:textColor="@color/text_secondary"
+                android:lineSpacingMultiplier="1.4"
+                android:visibility="gone"
+                android:layout_marginBottom="18dp" />
 
             <!-- Re-roll buttons -->
             <LinearLayout

@@ -71,6 +71,7 @@ public class CompleteActivity extends Activity {
         missionCategory = getIntent().getStringExtra("missionCategory");
         missionText     = getIntent().getStringExtra("missionText");
         navInstruction  = getIntent().getStringExtra("navInstruction");
+        String constraint = getIntent().getStringExtra("constraint");
 
         repository = new AdventureRepository(this);
 
@@ -82,6 +83,11 @@ public class CompleteActivity extends Activity {
         MissionCategory cat = MissionCategory.valueOf(missionCategory);
         ((TextView) findViewById(R.id.text_mission_label)).setText(cat.getEmoji() + "  " + cat.getDisplayName());
         ((TextView) findViewById(R.id.text_mission)).setText(missionText);
+        if (constraint != null) {
+            TextView cv = findViewById(R.id.text_constraint);
+            cv.setVisibility(View.VISIBLE);
+            cv.setText(constraint);
+        }
 
         findViewById(R.id.btn_take_photo).setOnClickListener(v -> checkCameraPermission());
         findViewById(R.id.btn_pick_photo).setOnClickListener(v -> pickGallery());
