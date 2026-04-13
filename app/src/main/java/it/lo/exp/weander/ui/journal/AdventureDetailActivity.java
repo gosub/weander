@@ -1,15 +1,21 @@
 package it.lo.exp.weander.ui.journal;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.content.FileProvider;
+
+import java.io.File;
 
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
@@ -86,6 +92,8 @@ public class AdventureDetailActivity extends Activity {
             playBtn.setVisibility(View.GONE);
         }
 
+        findViewById(R.id.btn_share).setOnClickListener(v -> shareAdventure(a));
+
         if (a.navigationText != null) {
             isNavMode = true;
             mapView.setVisibility(View.GONE);
@@ -108,6 +116,33 @@ public class AdventureDetailActivity extends Activity {
         m.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
         mapView.getOverlays().add(m);
         mapView.invalidate();
+    }
+
+    private void shareAdventure(Adventure a) {
+        MissionCategory cat = MissionCategory.valueOf(a.missionCategory);
+        String date = new java.text.SimpleDateFormat("d MMMM yyyy", java.util.Locale.getDefault())
+                .format(new java.util.Date(a.timestamp));
+        StringBuilder text = new StringBuilder();
+        text.append(cat.getEmoji()).append(" ").append(cat.getDisplayName()).append(" · ").append(date).append("\n\n");
+        text.append(a.missionText);
+        if (a.textEntry != null && !a.textEntry.isEmpty()) {
+            text.append("\n\n").append(a.textEntry);
+        }
+
+        if (a.photoPath != null) {
+            Uri photoUri = FileProvider.getUriForFile(this, "it.lo.exp.weander.fileprovider", new File(a.photoPath));
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("image/jpeg");
+            intent.putExtra(Intent.EXTRA_TEXT, text.toString());
+            intent.putExtra(Intent.EXTRA_STREAM, photoUri);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(Intent.createChooser(intent, null));
+        } else {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, text.toString());
+            startActivity(Intent.createChooser(intent, null));
+        }
     }
 
     private static Bitmap decodeSampled(String path, int maxDim) {
