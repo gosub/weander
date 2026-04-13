@@ -49,6 +49,8 @@ public class JournalActivity extends Activity {
 
         repository = new AdventureRepository(this);
         buildChips();
+        findViewById(R.id.btn_map_overview).setOnClickListener(v ->
+                startActivity(new Intent(this, MapOverviewActivity.class)));
     }
 
     private void buildChips() {

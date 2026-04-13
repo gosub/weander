@@ -49,6 +49,10 @@
             android:name=".ui.journal.AdventureDetailActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".ui.journal.MapOverviewActivity"
+            android:screenOrientation="portrait" />
+
         <!-- FileProvider for camera photos -->
         <provider
             android:name="androidx.core.content.FileProvider"
