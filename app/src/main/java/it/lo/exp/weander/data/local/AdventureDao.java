@@ -19,4 +19,7 @@ public interface AdventureDao {
 
     @Query("SELECT * FROM adventures WHERE id = :id LIMIT 1")
     Adventure getById(long id);
+
+    @Query("SELECT timestamp FROM adventures ORDER BY timestamp DESC")
+    List<Long> getAllTimestamps();
 }

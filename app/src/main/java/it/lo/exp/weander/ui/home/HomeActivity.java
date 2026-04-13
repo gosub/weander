@@ -60,12 +60,15 @@ public class HomeActivity extends Activity {
     }
 
     private void refreshStats() {
-        repository.getAll(adventures -> runOnUiThread(() -> {
-            int n = adventures.size();
-            if (n == 0) {
+        repository.getStats(stats -> runOnUiThread(() -> {
+            int total = stats[0];
+            int streak = stats[1];
+            if (total == 0) {
                 statsText.setText("No adventures yet");
             } else {
-                statsText.setText(n + (n == 1 ? " adventure" : " adventures") + " completed");
+                String s = total + (total == 1 ? " adventure" : " adventures");
+                if (streak > 1) s += "  \u00b7  " + streak + "-day streak";
+                statsText.setText(s);
             }
         }));
     }
