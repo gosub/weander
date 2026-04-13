@@ -29,6 +29,7 @@ import it.lo.exp.weander.missions.MissionCategory;
 public class AdventureDetailActivity extends Activity {
 
     private MapView mapView;
+    private boolean isNavMode = false;
     private MediaPlayer mediaPlayer;
 
     @Override
@@ -85,7 +86,15 @@ public class AdventureDetailActivity extends Activity {
             playBtn.setVisibility(View.GONE);
         }
 
-        setupMap(a);
+        if (a.navigationText != null) {
+            isNavMode = true;
+            mapView.setVisibility(View.GONE);
+            TextView navView = findViewById(R.id.text_nav_instruction);
+            navView.setVisibility(View.VISIBLE);
+            navView.setText(a.navigationText);
+        } else {
+            setupMap(a);
+        }
     }
 
     private void setupMap(Adventure a) {
@@ -114,8 +123,8 @@ public class AdventureDetailActivity extends Activity {
         }
     }
 
-    @Override protected void onResume() { super.onResume(); mapView.onResume(); }
-    @Override protected void onPause()  { super.onPause();  mapView.onPause();  }
+    @Override protected void onResume() { super.onResume(); if (!isNavMode) mapView.onResume(); }
+    @Override protected void onPause()  { super.onPause();  if (!isNavMode) mapView.onPause();  }
 
     @Override
     protected void onDestroy() {

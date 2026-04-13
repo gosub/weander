@@ -9,13 +9,26 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Map at the top -->
+        <!-- Map at the top (GPS adventures only) -->
         <org.osmdroid.views.MapView
             android:id="@+id/map"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:clickable="true"
             android:focusable="true" />
+
+        <!-- Nav instruction block (strategy-mode adventures only) -->
+        <TextView
+            android:id="@+id/text_nav_instruction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:padding="20dp"
+            android:textSize="16sp"
+            android:fontFamily="serif"
+            android:textColor="@color/text_primary"
+            android:lineSpacingMultiplier="1.5"
+            android:background="@color/surface" />
 
         <!-- Detail content -->
         <LinearLayout
