@@ -1,6 +1,7 @@
 package it.lo.exp.weander.missions;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -206,6 +207,61 @@ public class MissionPool {
     public static Mission random() {
         if (RANDOM.nextFloat() < 0.2f) return composedMission();
         return ALL.get(RANDOM.nextInt(ALL.size()));
+    }
+
+    /**
+     * Returns a mission weighted by time of day and season.
+     *
+     * Time buckets: NIGHT 21-5, DAWN 5-9, DAY 9-18, DUSK 18-21
+     * Seasons (Northern Hemisphere): WINTER 12/1/2, SPRING 3-5, SUMMER 6-8, AUTUMN 9-11
+     *
+     * Weight table — rows: categories (PHOTO, WRITING, SOUND, SOCIAL, CREATIVE, OBSERVATION)
+     * Cols: NIGHT, DAWN, DAY, DUSK
+     */
+    private static final float[][] TIME_WEIGHTS = {
+        // PHOTO  WRITING  SOUND  SOCIAL  CREATIVE  OBSERVATION
+        {  0.4f,  1.5f,   1.2f,  0.2f,   1.0f,     1.4f  }, // NIGHT
+        {  1.8f,  1.3f,   1.3f,  0.4f,   1.2f,     2.0f  }, // DAWN
+        {  1.0f,  1.0f,   1.0f,  1.5f,   1.0f,     1.0f  }, // DAY
+        {  2.0f,  1.2f,   1.0f,  0.8f,   1.2f,     1.8f  }, // DUSK
+    };
+
+    private static final float[][] SEASON_WEIGHTS = {
+        // PHOTO  WRITING  SOUND  SOCIAL  CREATIVE  OBSERVATION
+        {  0.7f,  1.5f,   1.2f,  0.8f,   1.3f,     1.0f  }, // WINTER
+        {  1.2f,  1.0f,   1.1f,  1.2f,   1.1f,     1.2f  }, // SPRING
+        {  1.3f,  0.8f,   1.0f,  1.4f,   1.0f,     1.3f  }, // SUMMER
+        {  1.1f,  1.3f,   1.2f,  1.0f,   1.2f,     1.1f  }, // AUTUMN
+    };
+
+    public static Mission randomContextual() {
+        if (RANDOM.nextFloat() < 0.2f) return composedMission();
+
+        Calendar cal  = Calendar.getInstance();
+        int hour  = cal.get(Calendar.HOUR_OF_DAY);
+        int month = cal.get(Calendar.MONTH) + 1; // 1-12
+
+        int timeBucket;   // 0=NIGHT, 1=DAWN, 2=DAY, 3=DUSK
+        if (hour >= 21 || hour < 5) timeBucket = 0;
+        else if (hour < 9)          timeBucket = 1;
+        else if (hour < 18)         timeBucket = 2;
+        else                        timeBucket = 3;
+
+        int seasonBucket; // 0=WINTER, 1=SPRING, 2=SUMMER, 3=AUTUMN
+        if (month == 12 || month <= 2) seasonBucket = 0;
+        else if (month <= 5)           seasonBucket = 1;
+        else if (month <= 8)           seasonBucket = 2;
+        else                           seasonBucket = 3;
+
+        MissionCategory[] cats = MissionCategory.values();
+        List<Mission> weighted = new ArrayList<>();
+        for (Mission m : ALL) {
+            int ci = m.getCategory().ordinal();
+            float w = TIME_WEIGHTS[timeBucket][ci] * SEASON_WEIGHTS[seasonBucket][ci];
+            int copies = Math.max(1, Math.round(w * 4));
+            for (int i = 0; i < copies; i++) weighted.add(m);
+        }
+        return weighted.get(RANDOM.nextInt(weighted.size()));
     }
 
     public static Mission randomInCategory(MissionCategory category) {

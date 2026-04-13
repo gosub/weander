@@ -113,7 +113,7 @@ public class HomeActivity extends Activity {
         }
         double[] dest = LocationUtil.randomNearbyPoint(
                 location.getLatitude(), location.getLongitude(), MIN_RADIUS, MAX_RADIUS);
-        Mission mission = MissionPool.random();
+        Mission mission = MissionPool.randomContextual();
 
         Intent intent = new Intent(this, AdventureActivity.class);
         intent.putExtra("startLat", location.getLatitude());
@@ -129,7 +129,7 @@ public class HomeActivity extends Activity {
 
     private void launchWithStrategy() {
         NavigationStrategy strategy = NavigationStrategyPool.random();
-        Mission mission = MissionPool.random();
+        Mission mission = MissionPool.randomContextual();
 
         Intent intent = new Intent(this, AdventureActivity.class);
         intent.putExtra("startLat", 0.0);
