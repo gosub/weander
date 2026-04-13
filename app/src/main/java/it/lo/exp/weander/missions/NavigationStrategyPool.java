@@ -15,19 +15,20 @@ public class NavigationStrategyPool {
         "Find the steepest street visible and begin at its foot.",
     };
 
-    private static final String[] RULES = {
-        "At each junction, take the street with the most trees.",
-        "At each junction, choose the narrower option.",
-        "At each junction, turn toward any downhill slope.",
-        "At each junction, alternate: left, right, left, right.",
-        "At each junction, go straight unless blocked; if blocked, turn left.",
-        "Follow house numbers upward — always move toward higher numbers.",
-        "At each junction, take the street that faces the sun.",
-        "Always walk uphill if a slope is available.",
-        "Take the first street where you can hear something new.",
-        "Hug any wall or fence — stay as close as possible to a continuous barrier.",
-        "Count the front doors: at each junction, take the street with more doors visible.",
-        "At each junction, take the road you've never walked before.",
+    // Each entry is { name, rule } — always pick both from the same index.
+    private static final String[][] NAMED_RULES = {
+        { "Tree Line",        "At each junction, take the street with the most trees." },
+        { "Narrow Path",      "At each junction, choose the narrower option." },
+        { "The Downhill Walk","At each junction, turn toward any downhill slope." },
+        { "Crossroads Game",  "At each junction, alternate: left, right, left, right." },
+        { "Dead Reckoning",   "At each junction, go straight unless blocked; if blocked, turn left." },
+        { "Odd Numbers",      "Follow house numbers upward — always move toward higher numbers." },
+        { "Sunseeker",        "At each junction, take the street that faces the sun." },
+        { "The Gradient",     "Always walk uphill if a slope is available." },
+        { "The Listener",     "Take the first street where you can hear something new." },
+        { "Wall Follower",    "Hug any wall or fence — stay as close as possible to a continuous barrier." },
+        { "Door Counter",     "Count the front doors: at each junction, take the street with more doors visible." },
+        { "The Drifter",      "At each junction, take the road you've never walked before." },
     };
 
     private static final String[] STOPS = {
@@ -54,16 +55,11 @@ public class NavigationStrategyPool {
         "Keep a mental note of the three most interesting things you pass.",
     };
 
-    private static final String[] NAMES = {
-        "The Drifter", "Wall Follower", "Sunseeker", "The Downhill Walk",
-        "Narrow Path", "Odd Numbers", "The Listener", "Tree Line",
-        "Dead Reckoning", "Crossroads Game", "The Gradient", "Door Counter",
-    };
-
     public static NavigationStrategy random() {
         String start = STARTS[RNG.nextInt(STARTS.length)];
-        String rule  = RULES[RNG.nextInt(RULES.length)];
-        String name  = NAMES[RNG.nextInt(NAMES.length)];
+        String[] namedRule = NAMED_RULES[RNG.nextInt(NAMED_RULES.length)];
+        String name  = namedRule[0];
+        String rule  = namedRule[1];
 
         String rawStop = STOPS[RNG.nextInt(STOPS.length)];
         String stop;
